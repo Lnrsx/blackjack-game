@@ -11,8 +11,9 @@ function createWindow () {
         height: 600,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
-          }
+        },
     })
+    win.setMenu(null)
     win.loadFile('app/index.html')
 
     // Open the DevTools

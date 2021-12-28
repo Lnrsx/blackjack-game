@@ -1,16 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;1,100&display=swap');
+
 :root {
+
+    /* Theme */
     --background: #121212;
+    --foreground: #1e1e1e;
+    --border-colour: #000000;
     --text-color: #ffffff;
     --high-text-emphasis: 100%;
     --medium-text-emphasis: 60%;
+    font-family: 'Roboto', sans-serif;
 
     --green-300: #81C784;
     --green-400: #66BB6A;
     --green-500: #4CAF50;
     --green-600: #43A047;
+    --green-900: #1B5E20;
 }
 
 body {
     background-color: var(--background);
     color: var(--text-color);
+}
+
+.tile {
+    background-color: var(--foreground);
+    border: var(--border-colour) 1px solid;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.begin-game-tile {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 250px;
+    text-align: center;
+}
+
+.begin-game-button {
+    position: absolute;
+    background-color: var(--green-900);
+    padding: 5px;
+    border-radius: 7px;
+    border: var(--border-colour) 1px solid;
+    bottom: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.begin-game-button:hover {
+    background-color: var(--green-600)
+}
+
+.begin-game-button:active {
+    background-color: var(--green-500);
 }
