@@ -1,6 +1,10 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
+try {
+    require('electron-reloader')(module)
+} catch (_) {}
+
 function createWindow () {
     const win = new BrowserWindow({
         width: 800,
@@ -9,7 +13,7 @@ function createWindow () {
             preload: path.join(__dirname, 'preload.js')
           }
     })
-    win.loadFile('src/index.html')
+    win.loadFile('app/index.html')
 
     // Open the DevTools
     // mainWindow.webContents.openDevTools()
