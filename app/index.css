@@ -1,3 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+    --background: #121212;
+    --text-color: #ffffff;
+    --high-text-emphasis: 100%;
+    --medium-text-emphasis: 60%;
+
+    --green-300: #81C784;
+    --green-400: #66BB6A;
+    --green-500: #4CAF50;
+    --green-600: #43A047;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-color);
+}
