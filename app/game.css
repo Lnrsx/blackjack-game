@@ -1,0 +1,6 @@
+@import "theme.css";
+
+.game-canvas {
+    margin: 0;
+    overflow: hidden;
+}
