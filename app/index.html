@@ -2,12 +2,17 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <link href="index.css" rel="stylesheet">
+    <script src="../src/index.js" defer></script>
+    <!-- Script will not run until after page is loaded-->
   </head>
   <body>
     <div class="tile begin-game-tile">
         Blackjack Game Settings
+        <div class="slide-container">
+            <input type="range" min="0" max="6" value="0" class="slider" id="player-slider">
+            <div class="slider-value" id="player-count-value">0</div>
+        </div>
         <b tpye="button" class="begin-game-button">Start Game</b>
     </div>
   </body>
