@@ -69,7 +69,16 @@ body {
 
 .slide-container {
     width: 100%;
-    margin-top: 50px;
+    margin-top: 30px;
+}
+
+.slider-info {
+    opacity: var(--medium-text-emphasis);
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5px;
+    margin-top: 5px;
 }
 
 .slider {

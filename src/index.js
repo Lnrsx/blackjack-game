@@ -1,6 +1,15 @@
-var slider = document.getElementById("player-slider")
-var output = document.getElementById("player-count-value")
+// Player slider updater
+var playerSlider = document.getElementById("player-slider")
+var playerSliderOutput = document.getElementById("player-count-value")
 
-slider.oninput = function() {
-    output.innerHTML = this.value
+playerSlider.oninput = function() {
+    playerSliderOutput.innerHTML = this.value
+}
+
+// Deck slider updater
+var deckSlider = document.getElementById("deck-slider")
+var deckSliderOutput = document.getElementById("deck-count-value")
+
+deckSlider.oninput = function() {
+    deckSliderOutput.innerHTML = this.value
 }
