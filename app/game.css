@@ -3,4 +3,5 @@
 .game-canvas {
     margin: 0;
     overflow: hidden;
+    border: var(--border-colour) 1px solid;
 }

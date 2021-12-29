@@ -9,11 +9,11 @@ function createWindow () {
     const win = new BrowserWindow({
         width: 800,
         height: 600,
+        autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         },
     })
-    win.setMenu(null)
     win.loadFile('app/index.html')
 
     // Open the DevTools
