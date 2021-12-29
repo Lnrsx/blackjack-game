@@ -28,8 +28,8 @@ anchors = {
 }
 
 gamestate = {
-    player: [],
-    dealer: [],
+    player: ['4C', '3H', '5D'],
+    dealer: ['8C', 'QH', '5D'],
 }
 
 imagecache = { }
