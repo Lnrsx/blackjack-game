@@ -1,6 +1,8 @@
 const canvas = document.querySelector('.game-canvas');
 const ctx = canvas.getContext('2d');
 
+var drawbutton = document.getElementById("draw-button")
+
 canvas.width = 800;
 canvas.height = 600;
 
@@ -27,20 +29,22 @@ anchors = {
 
 gamestate = {
     player: ['4C', '3H', '5D'],
-    dealer: ['4C', '3H', '5D'],
+    dealer: ['8C', 'QH', '5D'],
 }
 
-function drawgamestate(playeroffset = 0, dealeroffset = 0) {
+imagecache = { }
+
+function drawstaticgamestate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     // draws the hand of the player and dealer (or every entry in the gamestate object)
     for (const [unit, hand] of Object.entries(gamestate)) {
         // changes hand achor so that hand is always horizontally aligned
-        // offset of the hand can be added if a card is being animated towards the hand and needs room
-        handstartpoint = anchors[unit].posX - ((hand.length + playeroffset) * cardsize.width / 2)
-        gamestate.player.forEach(function (card, index) {
+        gamestate[unit].forEach(function (card, index) {
+            // hand starting point needs to be decalred inside the loop for some reason
+            var handstartpoint = anchors[unit].posX - (hand.length * cardsize.width / 2)
             var cardimage = new Image();
             cardimage.src = `../app/cards100/${card}.png`
-
             cardimage.onload = function() {
                 ctx.drawImage(
                     cardimage,
@@ -68,4 +72,9 @@ function drawgamestate(playeroffset = 0, dealeroffset = 0) {
     }
 }
 
-drawgamestate()
+drawbutton.onclick = function () {
+    gamestate.player.push("2C")
+    drawstaticgamestate()
+}
+
+drawstaticgamestate()
