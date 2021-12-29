@@ -28,8 +28,8 @@ anchors = {
 }
 
 gamestate = {
-    player: ['4C', '3H', '5D'],
-    dealer: ['8C', 'QH', '5D'],
+    player: [],
+    dealer: [],
 }
 
 imagecache = { }
@@ -43,33 +43,57 @@ function drawstaticgamestate() {
         gamestate[unit].forEach(function (card, index) {
             // hand starting point needs to be decalred inside the loop for some reason
             var handstartpoint = anchors[unit].posX - (hand.length * cardsize.width / 2)
-            var cardimage = new Image();
-            cardimage.src = `../app/cards100/${card}.png`
-            cardimage.onload = function() {
-                ctx.drawImage(
-                    cardimage,
-                    handstartpoint + (cardsize.width * index),
-                    anchors[unit].posY,
-                    cardsize.width,
-                    cardsize.height,
-                )
+            let cardimage
+            if (card in imagecache) {
+                cardimage = imagecache[card]
+            } else {
+                cardimage = new Image();
+                cardimage.src = `../app/cards100/${card}.png`
+                cardimage.onload = function() {
+                    ctx.drawImage(
+                        cardimage,
+                        handstartpoint + (cardsize.width * index),
+                        anchors[unit].posY,
+                        cardsize.width,
+                        cardsize.height,
+                    )
+                    imagecache[card] = cardimage
+                }
             }
+            ctx.drawImage(
+                cardimage,
+                handstartpoint + (cardsize.width * index),
+                anchors[unit].posY,
+                cardsize.width,
+                cardsize.height,
+            )
         })
     }
 
     // Draws deck image (will stay static during game)
-    let deckimage = new Image();
-    deckimage.src = '../app/cards100/deck.png'
-
-    deckimage.onload = function () {
-        ctx.drawImage(
-            deckimage,
-            anchors.deck.posX,
-            anchors.deck.posY,
-            cardsize.width,
-            cardsize.height
-        )
+    if ('deckimage' in imagecache) {
+        deckimage = imagecache['deckimage']
+    } else {
+        deckimage = new Image();
+        deckimage.src = '../app/cards100/deck.png'
+        deckimage.onload = function () {
+            ctx.drawImage(
+                deckimage,
+                anchors.deck.posX,
+                anchors.deck.posY,
+                cardsize.width,
+                cardsize.height
+            )
+            imagecache['deckimage'] = deckimage
+        }
     }
+    ctx.drawImage(
+        deckimage,
+        anchors.deck.posX,
+        anchors.deck.posY,
+        cardsize.width,
+        cardsize.height
+    )
 }
 
 drawbutton.onclick = function () {
