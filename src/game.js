@@ -48,7 +48,7 @@ function drawstaticgamestate() {
                 cardimage = imagecache[card]
             } else {
                 cardimage = new Image();
-                cardimage.src = `../app/cards100/${card}.png`
+                cardimage.src = `../assets/cards100/${card}.png`
                 cardimage.onload = function() {
                     ctx.drawImage(
                         cardimage,
@@ -69,13 +69,13 @@ function drawstaticgamestate() {
             )
         })
     }
-
+ 
     // Draws deck image (will stay static during game)
     if ('deckimage' in imagecache) {
         deckimage = imagecache['deckimage']
     } else {
         deckimage = new Image();
-        deckimage.src = '../app/cards100/deck.png'
+        deckimage.src = '../assets/cards100/deck.png'
         deckimage.onload = function () {
             ctx.drawImage(
                 deckimage,

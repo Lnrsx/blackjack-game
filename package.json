@@ -12,5 +12,8 @@
   "devDependencies": {
     "electron": "^16.0.5",
     "electron-reloader": "^1.2.1"
+  },
+  "dependencies": {
+    "python-shell": "^3.0.1"
   }
 }
