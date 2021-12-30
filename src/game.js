@@ -1,7 +1,10 @@
+const { ipcRenderer } = require('electron')
+
 const canvas = document.querySelector('.game-canvas');
 const ctx = canvas.getContext('2d');
 
 var drawbutton = document.getElementById("draw-button")
+var pingbutton = document.getElementById("ping-button")
 
 canvas.width = 800;
 canvas.height = 600;
@@ -100,5 +103,13 @@ drawbutton.onclick = function () {
     gamestate.player.push("2C")
     drawstaticgamestate()
 }
+
+pingbutton.onclick = function () {
+    ipcRenderer.send('request', 'ping')
+}
+
+ipcRenderer.on('ping-response', (event, arg) => {
+    console.log(arg)
+})
 
 drawstaticgamestate()
