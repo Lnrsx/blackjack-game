@@ -36,23 +36,39 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
 
+boardID = null
+
+ipcMain.on('setboardID', (event, ID) => {
+    boardID = ID
+})
+
+ipcMain.on('getboardID', (event) => {
+    event.returnValue = boardID
+})
+
+
 ipcMain.on('request', (event, request) => {
     fetch(`${serverip}/${request}`).then((data) => {
         return data.text()
     }).then((text) => {
-        event.reply(`${request}-response`, text)
+        // response name is only request type, cuts off any arguments in even name
+        event.reply(`${request.split('/')[0]}-response`, text)
     }).catch(e => {
         console.log(e);
     })
 })
 
-let options = {
-    mode: 'text',
-    pythonPath: './env/Scripts/python'
-};
+function pythonchild() {
+    let options = {
+        mode: 'text',
+        pythonPath: './env/Scripts/python'
+    };
 
-PythonShell.run('./src/backend/server.py', options, function (err, results) {
-    if (err) throw err;
-    // results is an array consisting of messages collected during execution
-    console.log('response: ', results);
-});
+    PythonShell.run('./src/backend/server.py', options, function (err, results) {
+        if (err) throw err;
+        // results is an array consisting of messages collected during execution
+        console.log('response: ', results);
+    });
+}
+
+pythonchild()

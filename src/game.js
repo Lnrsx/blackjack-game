@@ -31,8 +31,8 @@ anchors = {
 }
 
 gamestate = {
-    player: ['4C', '3H', '5D'],
-    dealer: ['8C', 'QH', '5D'],
+    player: [],
+    dealer: [],
 }
 
 imagecache = { }
@@ -100,16 +100,13 @@ function drawstaticgamestate() {
 }
 
 drawbutton.onclick = function () {
-    gamestate.player.push("2C")
+    var boardID = ipcRenderer.sendSync('getboardID')
+    ipcRenderer.send('request', `draw/${boardID}`)
+}
+
+ipcRenderer.on('draw-response', (event, arg) => {
+    gamestate.player.push(arg)
     drawstaticgamestate()
-}
-
-pingbutton.onclick = function () {
-    ipcRenderer.send('request', 'ping')
-}
-
-ipcRenderer.on('ping-response', (event, arg) => {
-    console.log(arg)
 })
 
 drawstaticgamestate()
