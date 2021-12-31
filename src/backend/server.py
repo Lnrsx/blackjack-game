@@ -12,13 +12,14 @@ def start_game(decks):
     return board.id
 
 
-@app.route("/draw/<boardID>")
+@app.route("/hit/<boardID>")
 @cross_origin()
-def draw(boardID):
-    for board in Board.boards:
-        if boardID == board.id:
-            return board.deal_card()
-    return 'purple_back'
+def hit(boardID):
+    board = Board.get(boardID)
+    if board:
+        return board.hit()
+    else:
+        return 'purple_back'
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5000)

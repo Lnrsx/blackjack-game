@@ -101,10 +101,10 @@ function drawstaticgamestate() {
 
 drawbutton.onclick = function () {
     var boardID = ipcRenderer.sendSync('getboardID')
-    ipcRenderer.send('request', `draw/${boardID}`)
+    ipcRenderer.send('request', `hit/${boardID}`)
 }
 
-ipcRenderer.on('draw-response', (event, arg) => {
+ipcRenderer.on('hit-response', (event, arg) => {
     gamestate.player.push(arg)
     drawstaticgamestate()
 })

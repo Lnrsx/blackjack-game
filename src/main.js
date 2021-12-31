@@ -58,7 +58,7 @@ ipcMain.on('request', (event, request) => {
     })
 })
 
-function pythonchild() {
+function startserver() {
     let options = {
         mode: 'text',
         pythonPath: './env/Scripts/python'
@@ -71,4 +71,5 @@ function pythonchild() {
     });
 }
 
-pythonchild()
+// If this line is commented out, the server can be run remotely for debugging purposes without causing issues to the frontend
+startserver()
