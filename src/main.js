@@ -5,7 +5,7 @@ const path = require('path');
 
 try {
     require('electron-reloader')(module)
-} catch (_) {}
+} catch (_) { }
 
 const serverip = 'http://127.0.0.1:5000'
 

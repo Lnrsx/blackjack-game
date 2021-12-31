@@ -4,7 +4,7 @@ const canvas = document.querySelector('.game-canvas');
 const ctx = canvas.getContext('2d');
 
 var drawbutton = document.getElementById("draw-button")
-var pingbutton = document.getElementById("ping-button")
+var getaplbutton = document.getElementById("get-apl")
 
 canvas.width = 800;
 canvas.height = 600;
@@ -104,9 +104,18 @@ drawbutton.onclick = function () {
     ipcRenderer.send('request', `hit/${boardID}`)
 }
 
-ipcRenderer.on('hit-response', (event, arg) => {
-    gamestate.player.push(arg)
+getaplbutton.onclick = function () {
+    var boardID = ipcRenderer.sendSync('getboardID')
+    ipcRenderer.send('request', `getapl/${boardID}`)
+}
+
+ipcRenderer.on('hit-response', (event, response) => {
+    gamestate.player.push(response)
     drawstaticgamestate()
 })
+
+ ipcRenderer.on('getapl-response', (event, response) => {
+    var actionlist = JSON.parse(response)
+ })
 
 drawstaticgamestate()

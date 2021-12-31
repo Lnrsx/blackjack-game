@@ -73,7 +73,7 @@ class Board(object):
                     "unit": "dealer",
                     "card": card,
                 })
-            self.calc_action_list(action_list = action_list)
+            return self.calc_action_list(action_list = action_list)
 
         # Checks if the player has more than 21 in their hadn
         if self.value_hand(self.player_hand) > 21:
