@@ -7,6 +7,7 @@ def test_hand_value():
     assert test_board.value_hand(['6C', 'KH']) == 16
     assert test_board.value_hand(['2D', 'AH', 'KC']) == 13
     assert test_board.value_hand(['AC', 'AD', '7S', '10D', '2D']) == 21
+    assert test_board.value_hand(['AC', '3H', 'AS', '6S']) == 21
 
 def test_card_names():
     for card in test_board.deck:
