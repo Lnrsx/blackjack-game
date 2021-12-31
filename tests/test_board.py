@@ -16,5 +16,6 @@ def test_card_names():
         assert bool(re.search("^[\dJKQA]+[HDCS]{1}$", card))
 
 def test_apl():
-    # Makes sure a new game will have a actions, 4 card deals and a player input
-    len(test_board.calc_action_list()) == 5
+    # Makes sure a new game will have 5 actions, 4 card deals and a player input
+    assert len(test_board.calc_action_list()) == 5
+    assert len(test_board.calc_action_list()) == 1
