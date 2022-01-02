@@ -4,10 +4,13 @@
         <script src="../src/game.js" defer></script>
     </head>
     <body>
-        <canvas class="game-canvas" width="800" height="600"></canvas>
+        <div class="game-screen">
+            <canvas class="game-canvas" width="800" height="600"></canvas>
 
-        <!-- PH to demo animation -->
-        <button type="button" id="draw-button">Hit</button>
-        <a href="index.html">Menu</a>
+            <div class="game-menu">
+                <button type="button" class="hit-button" id="hit-button">Hit</button>
+                <a href="index.html" class="menu-button">Menu</a>
+            </div>
+        </div>
     </body>
 </html>

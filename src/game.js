@@ -3,7 +3,7 @@ const { ipcRenderer } = require('electron')
 const canvas = document.querySelector('.game-canvas');
 const ctx = canvas.getContext('2d');
 
-var drawbutton = document.getElementById("draw-button")
+var drawbutton = document.getElementById("hit-button")
 var getaplbutton = document.getElementById("get-apl")
 
 canvas.width = 800;
@@ -56,23 +56,35 @@ function drawstaticgamestate() {
         gamestate[unit].forEach(function (card, index) {
             // hand starting point needs to be decalred inside the loop for some reason
             var handstartpoint = anchors[unit].posX - (hand.length * cardsize.width / 2)
-            ctx.drawImage(
-                imagecache[card],
-                handstartpoint + (cardsize.width * index),
-                anchors[unit].posY,
-                cardsize.width,
-                cardsize.height,
-            )
+            var imagex = handstartpoint + (cardsize.width * index)
+            var imagey = anchors[unit].posY
+            // Only attempts to draw if the image has been loaded
+            if (imagecache[card].complete) {
+                ctx.drawImage(
+                    imagecache[card],
+                    imagex,
+                    imagey,
+                    cardsize.width,
+                    cardsize.height,
+                )
+            } else {
+                // If the image is not readym redraw the image when loaded
+                imagecache[card].onload = function() {
+                    drawstaticgamestate()
+                }
+            }
         })
     }
  
     // Draws deck image (will stay static during game)
     if ('deckimage' in imagecache) {
+        // Gets deck image from imagecache if it has already been loaded
         deckimage = imagecache['deckimage']
     } else {
+        // Load image if it has not already been (will only happen at start of game)
         deckimage = new Image();
         deckimage.src = '../assets/cards100/deck.png'
-        deckimage.onload = function () {
+        deckimage.onload = function() {
             ctx.drawImage(
                 deckimage,
                 anchors.deck.posX,

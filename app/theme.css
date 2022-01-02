@@ -26,3 +26,26 @@ body {
     color: var(--text-color);
     margin: 0px;
 }
+
+button {
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+    border: var(--border-colour) 1px solid;
+    background-color: var(--green-900);
+    cursor: pointer;
+    
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+button:hover {
+    background-color: var(--green-600)
+}
+
+button:active {
+    background-color: var(--green-500);
+}
