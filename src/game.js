@@ -35,7 +35,17 @@ gamestate = {
     dealer: [],
 }
 
+card_numbers = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "K", "Q", "A"]
+card_suits = ["H", "D", "S", "C"]
 imagecache = { }
+
+card_suits.forEach(suit => {
+    card_numbers.forEach(number => {
+        cardimage = new Image();
+        cardimage.src = `../assets/cards100/${number}${suit}.png`
+        imagecache[`${number}${suit}`] = cardimage
+    })
+})
 
 function drawstaticgamestate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -46,25 +56,8 @@ function drawstaticgamestate() {
         gamestate[unit].forEach(function (card, index) {
             // hand starting point needs to be decalred inside the loop for some reason
             var handstartpoint = anchors[unit].posX - (hand.length * cardsize.width / 2)
-            let cardimage
-            if (card in imagecache) {
-                cardimage = imagecache[card]
-            } else {
-                cardimage = new Image();
-                cardimage.src = `../assets/cards100/${card}.png`
-                cardimage.onload = function() {
-                    ctx.drawImage(
-                        cardimage,
-                        handstartpoint + (cardsize.width * index),
-                        anchors[unit].posY,
-                        cardsize.width,
-                        cardsize.height,
-                    )
-                    imagecache[card] = cardimage
-                }
-            }
             ctx.drawImage(
-                cardimage,
+                imagecache[card],
                 handstartpoint + (cardsize.width * index),
                 anchors[unit].posY,
                 cardsize.width,
@@ -99,14 +92,28 @@ function drawstaticgamestate() {
     )
 }
 
+function processapl(event_list) {
+    event_list.forEach(event => {
+        switch (event.action) {
+            case "deal":
+               gamestate[event.unit].push(event.card)
+               drawstaticgamestate()
+               break
+            case "end":
+                console.log(`${event.winner} won!`)
+                break
+            case "player_turn":
+                console.log('Your turn!')
+                break
+            default:
+                console.log(`Unknown action: ${event.action}`)
+        }
+    })
+}
+
 drawbutton.onclick = function () {
     var boardID = ipcRenderer.sendSync('getboardID')
     ipcRenderer.send('request', `hit/${boardID}`)
-}
-
-getaplbutton.onclick = function () {
-    var boardID = ipcRenderer.sendSync('getboardID')
-    ipcRenderer.send('request', `getapl/${boardID}`)
 }
 
 ipcRenderer.on('hit-response', (event, response) => {
@@ -116,6 +123,8 @@ ipcRenderer.on('hit-response', (event, response) => {
 
  ipcRenderer.on('getapl-response', (event, response) => {
     var actionlist = JSON.parse(response)
- })
+    processapl(actionlist)
+})
 
-drawstaticgamestate()
+var boardID = ipcRenderer.sendSync('getboardID')
+ipcRenderer.send('request', `getapl/${boardID}`)

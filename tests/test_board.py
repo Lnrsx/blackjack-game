@@ -18,4 +18,5 @@ def test_card_names():
 def test_apl():
     # Makes sure a new game will have 5 actions, 4 card deals and a player input
     assert len(test_board.calc_action_list()) == 5
+    # Since the action list has auto added cards to each players hands, the only action should be for the player to take an action now
     assert len(test_board.calc_action_list()) == 1
