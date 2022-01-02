@@ -22,3 +22,16 @@
     background-color: var(--foreground);
     pointer-events: none;
 }
+
+.gameover-popup {
+    background-color: var(--foreground);
+    border-radius: 7px;
+    padding: 10px;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+}
+
+.game-winner {
+    padding: 5px;
+}

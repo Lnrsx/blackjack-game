@@ -6,8 +6,16 @@ const ctx = canvas.getContext('2d');
 var hitbutton = document.getElementById("hit-button")
 var standbutton = document.getElementById("stand-button")
 
+var gameoverpopup = document.getElementById("gameover-popup")
+var gamewinner = document.getElementById("game-winner")
+
 canvas.width = 800;
 canvas.height = 600;
+
+// Position game over popup in the center of the canvas and hide it
+gameoverpopup.style.left = `${canvas.width/2 - 49}px`
+gameoverpopup.style.top = `${canvas.height/2 - 28}px`
+gameoverpopup.hidden = true
 
 // Placeholder for backend game state retrieval
 cardsize = {
@@ -112,7 +120,12 @@ async function processapl(event_list) {
                drawstaticgamestate()
                break
             case "end":
-                console.log(`${event.winner} won!`)
+                if (event.winner == "draw") {
+                    gamewinner.innerHTML = 'draw'
+                } else {
+                    gamewinner.innerHTML = `${event.winner} won`
+                }
+                gameoverpopup.hidden = false
                 break
             case "player_turn":
                 hitbutton.classList.remove("action-button-inactive")
@@ -157,4 +170,6 @@ ipcRenderer.on('stand-response', (event, response) => {
     fetchapl()
 })
 
+hitbutton.classList.add("action-button-inactive")
+standbutton.classList.add("action-button-inactive")
 fetchapl()
