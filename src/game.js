@@ -8,6 +8,7 @@ var standbutton = document.getElementById("stand-button")
 
 var gameoverpopup = document.getElementById("gameover-popup")
 var gamewinner = document.getElementById("game-winner")
+var restartgame = document.getElementById("restart-button")
 
 canvas.width = 800;
 canvas.height = 600;
@@ -141,6 +142,10 @@ async function processapl(event_list) {
 function fetchapl() {
     var boardID = ipcRenderer.sendSync('getboardID')
     ipcRenderer.send('request', `getapl/${boardID}`)
+}
+
+restartgame.onclick = function() {
+    window.location.href = "../app/index.html"
 }
 
 hitbutton.onclick = function() {

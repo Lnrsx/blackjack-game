@@ -32,6 +32,20 @@
     top: 0%;
 }
 
+.gameover-text {
+    font-size: 22px;
+}
+
 .game-winner {
     padding: 5px;
+    text-align: center;
+}
+
+.restart-button-container {
+    text-align: center;
+}
+
+.restart-button {
+    color: inherit;
+    margin-top: 15px;
 }
