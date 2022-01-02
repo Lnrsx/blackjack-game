@@ -6,10 +6,14 @@
     border: var(--border-colour) 1px solid;
 }
 
+.game-menu {
+    margin: 2px;
+}
+
 .action-button {
     color: inherit;
     padding: 10px 15px;
-    margin: 3px;
+    margin: 2px;
     font-size: 18px;
     border: var(--border-colour) 0px solid;
 }

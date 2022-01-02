@@ -104,8 +104,8 @@ function drawstaticgamestate() {
     )
 }
 
-function processapl(event_list) {
-    event_list.forEach(event => {
+async function processapl(event_list) {
+    for (const event of event_list) {
         switch (event.action) {
             case "deal":
                gamestate[event.unit].push(event.card)
@@ -115,12 +115,19 @@ function processapl(event_list) {
                 console.log(`${event.winner} won!`)
                 break
             case "player_turn":
-                console.log('Your turn!')
+                hitbutton.classList.remove("action-button-inactive")
+                standbutton.classList.remove("action-button-inactive")
                 break
             default:
                 console.log(`Unknown action: ${event.action}`)
         }
-    })
+        await new Promise(r => setTimeout(r, 500));
+    }
+}
+
+function fetchapl() {
+    var boardID = ipcRenderer.sendSync('getboardID')
+    ipcRenderer.send('request', `getapl/${boardID}`)
 }
 
 hitbutton.onclick = function() {
@@ -134,19 +141,20 @@ standbutton.onclick = function() {
 }
 
 ipcRenderer.on('hit-response', (event, response) => {
-    gamestate.player.push(response)
-    drawstaticgamestate()
+    hitbutton.classList.add("action-button-inactive")
+    standbutton.classList.add("action-button-inactive")
+    fetchapl()
 })
 
-ipcRenderer.on('getapl-response', (event, response) => {
+ipcRenderer.on('getapl-response', async (event, response) => {
     var actionlist = JSON.parse(response)
-    processapl(actionlist)
+    await processapl(actionlist)
 })
 
 ipcRenderer.on('stand-response', (event, response) => {
     hitbutton.classList.add("action-button-inactive")
     standbutton.classList.add("action-button-inactive")
+    fetchapl()
 })
 
-var boardID = ipcRenderer.sendSync('getboardID')
-ipcRenderer.send('request', `getapl/${boardID}`)
+fetchapl()

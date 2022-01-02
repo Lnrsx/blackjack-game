@@ -23,6 +23,7 @@ class Board(object):
         self.player_hand = []
         self.player_standing = False
         self.dealer_hand = []
+        self.player_undealt = ''
 
     @classmethod
     def get(cls, id):
@@ -33,6 +34,7 @@ class Board(object):
     def hit(self):
         card = str(self.deck.pop())
         self.player_hand.append(card)
+        self.player_undealt = card
         return card
 
     def value_hand(self, hand):
@@ -57,6 +59,17 @@ class Board(object):
     def calc_action_list(self, recursive = False, action_list = []):
         if not recursive:
             action_list = []
+
+        # Checks for cards that have been recently added to hands to tell frontend to deal
+        if self.player_undealt:
+            action_list.append({
+                "action": "deal",
+                "unit": "player",
+                "card": self.player_undealt
+            })
+            self.player_undealt = ''
+            return self.calc_action_list(recursive=True, action_list = action_list)
+
         # Deals cards to the dealer and player until they both have 2 card
         if len(self.player_hand) < 2 or len(self.dealer_hand) < 2:
             if len(self.player_hand) < 2:

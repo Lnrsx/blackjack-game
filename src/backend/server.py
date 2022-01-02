@@ -34,9 +34,7 @@ def stand(boardID):
     board = Board.get(boardID)
     if board:
         board.player_standing = True
-        return 'True'
-    else:
-        return 'False'
+        return "200"
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5000)
