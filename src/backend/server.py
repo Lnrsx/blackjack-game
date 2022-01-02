@@ -28,5 +28,15 @@ def getapl(boardID):
     board = Board.get(boardID)
     return json.dumps(board.calc_action_list())
 
+@app.route("/stand/<boardID>")
+@cross_origin()
+def stand(boardID):
+    board = Board.get(boardID)
+    if board:
+        board.player_standing = True
+        return 'True'
+    else:
+        return 'False'
+
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5000)

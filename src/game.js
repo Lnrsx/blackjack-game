@@ -3,8 +3,8 @@ const { ipcRenderer } = require('electron')
 const canvas = document.querySelector('.game-canvas');
 const ctx = canvas.getContext('2d');
 
-var drawbutton = document.getElementById("hit-button")
-var getaplbutton = document.getElementById("get-apl")
+var hitbutton = document.getElementById("hit-button")
+var standbutton = document.getElementById("stand-button")
 
 canvas.width = 800;
 canvas.height = 600;
@@ -123,9 +123,14 @@ function processapl(event_list) {
     })
 }
 
-drawbutton.onclick = function () {
+hitbutton.onclick = function() {
     var boardID = ipcRenderer.sendSync('getboardID')
     ipcRenderer.send('request', `hit/${boardID}`)
+}
+
+standbutton.onclick = function() {
+    var boardID = ipcRenderer.sendSync('getboardID')
+    ipcRenderer.send('request', `stand/${boardID}`)
 }
 
 ipcRenderer.on('hit-response', (event, response) => {
@@ -133,9 +138,14 @@ ipcRenderer.on('hit-response', (event, response) => {
     drawstaticgamestate()
 })
 
- ipcRenderer.on('getapl-response', (event, response) => {
+ipcRenderer.on('getapl-response', (event, response) => {
     var actionlist = JSON.parse(response)
     processapl(actionlist)
+})
+
+ipcRenderer.on('stand-response', (event, response) => {
+    hitbutton.classList.add("action-button-inactive")
+    standbutton.classList.add("action-button-inactive")
 })
 
 var boardID = ipcRenderer.sendSync('getboardID')
