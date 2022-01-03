@@ -43,6 +43,7 @@ gamestate = {
     player: [],
     dealer: [],
 }
+var dealer_card_hidden = true,
 
 card_numbers = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "K", "Q", "A"]
 card_suits = ["H", "D", "S", "C"]
@@ -56,6 +57,9 @@ card_suits.forEach(suit => {
     })
 })
 
+hidden_card = new Image();
+hidden_card.src = `../assets/cards100/blue_back.png`
+
 function drawstaticgamestate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -63,14 +67,20 @@ function drawstaticgamestate() {
     for (const [unit, hand] of Object.entries(gamestate)) {
         // changes hand achor so that hand is always horizontally aligned
         gamestate[unit].forEach(function (card, index) {
+            var cardimage
+            if (unit == "dealer" && dealer_card_hidden && index == 1) {
+                cardimage = hidden_card
+            } else {
+                cardimage = imagecache[card]
+            }
             // hand starting point needs to be decalred inside the loop for some reason
             var handstartpoint = anchors[unit].posX - (hand.length * cardsize.width / 2)
             var imagex = handstartpoint + (cardsize.width * index)
             var imagey = anchors[unit].posY
             // Only attempts to draw if the image has been loaded
-            if (imagecache[card].complete) {
+            if (cardimage.complete) {
                 ctx.drawImage(
-                    imagecache[card],
+                    cardimage,
                     imagex,
                     imagey,
                     cardsize.width,
@@ -121,6 +131,8 @@ async function processapl(event_list) {
                drawstaticgamestate()
                break
             case "end":
+                dealer_card_hidden = false;
+                drawstaticgamestate()
                 if (event.winner == "draw") {
                     gamewinner.innerHTML = 'draw'
                 } else {
@@ -132,6 +144,9 @@ async function processapl(event_list) {
                 hitbutton.classList.remove("action-button-inactive")
                 standbutton.classList.remove("action-button-inactive")
                 break
+            case "unhide_dealer_card":
+                dealer_card_hidden = false;
+                drawstaticgamestate()
             default:
                 console.log(`Unknown action: ${event.action}`)
         }

@@ -22,6 +22,7 @@ class Board(object):
         self.id = str(uuid.uuid1().hex)[:6]
         self.player_hand = []
         self.player_standing = False
+        self.dealer_card_hidden = True
         self.dealer_hand = []
         self.player_undealt = ''
 
@@ -125,6 +126,13 @@ class Board(object):
             return action_list
         # If the player has stood, the only actions left to take are for the dealer to draw
         else:
+            # First the dealers hidden card must be revealed
+            if self.dealer_card_hidden == True:
+                self.dealer_card_hidden = False
+                action_list.append({
+                    "action": "unhide_dealer_card"
+                })
+                return self.calc_action_list(recursive = True, action_list = action_list)
             # The dealer must draw if their hand is valued below 17
             if self.value_hand(self.dealer_hand) < 17:
                 card = self.deck.pop()
